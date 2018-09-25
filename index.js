@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 
 const app = express()
 
@@ -27,6 +28,13 @@ app.delete('/api/productId/:productId', (req, res) => {
 
 })
 
-app.listen(port, () => {
-	console.log(`Running on http://localhost:${port}`)
+mongoose.connect('mongodb://localhost:27017/shop', (err, res) => {
+	if(err) {
+		console.log(`Error Establishing Database Connection ${err}`)
+	} 
+	console.log('Established Database Connection')
+
+	app.listen(port, () => {
+		console.log(`Running on http://localhost:${port}`)
+	})
 })
