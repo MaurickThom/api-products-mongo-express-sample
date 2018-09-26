@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+
 const User = require('../models/user')
+const service = require('../services')
 
 const signUp = (req, res) => {
 	const user = new User({
