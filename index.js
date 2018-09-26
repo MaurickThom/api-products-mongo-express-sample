@@ -18,7 +18,18 @@ app.get('/api/product', (req, res) => {
 })
 
 app.get('/api/product/:productId', (req, res) => {
-	res.status(200).send(`Product: ${ req.params.productId }`)
+	const productId = req.params.productId
+	Product.findById(productId, (err, product) => {
+		if(err) {
+			return res.status(500).send(`Error of request ${err}`)
+		}
+		if(!product) {
+			return res.status(404).send(`Product not exists ${err}`)
+		}
+		res.status(200).json({
+			product
+		})
+	})
 })
 
 app.post('/api/product', (req, res) => {
