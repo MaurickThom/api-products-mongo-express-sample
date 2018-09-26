@@ -9,7 +9,8 @@ const signUp = (req, res) => {
 		displayName: req.body.displayName,
 		password: req.body.password
 	})
-
+	user.avatar = user.gravatar()
+	
 	user.save((err) => {
 		if(err) {
 			return res.status(500).send('Error:: creating user' + err)
