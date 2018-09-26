@@ -63,7 +63,18 @@ app.post('/api/product', (req, res) => {
 })
 
 app.put('/api/product/:productId', (req, res) => {
-
+	const productId = req.params.productId
+	let update = req.body
+	Product.findByIdAndUpdate(productId, update, (err, productUpdated) => {
+		if(err) {
+			res.status(500).send(`Error updating product, ${err}`)
+			throw err			
+		}
+		if(!productUpdated) {
+			return res.status(404).send(`Product not exists ${err}`)
+		}
+		res.status(200).send({ product: productUpdated })
+	})
 })
 
 app.delete('/api/product/:productId', (req, res) => {
