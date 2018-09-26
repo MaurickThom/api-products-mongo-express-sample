@@ -7,14 +7,14 @@ const signUp = (req, res) => {
 	const user = new User({
 		email: req.body.email,
 		displayName: req.body.displayName,
-
+		password: req.body.password
 	})
 
 	user.save((err) => {
 		if(err) {
-			return res.status(500).send('Error creating user')
+			return res.status(500).send('Error:: creating user' + err)
 		}
-		return res.status(200).json({
+		return res.status(201).json({
 			token: service.createToken(user)
 		})
 	})
@@ -35,7 +35,7 @@ const signIn = (req, res) => {
 		res.status(200).send({
 			message: 'You are logged',
 			token: service.createToken(user)
-		})
+		}) 
 	})
 }
 
