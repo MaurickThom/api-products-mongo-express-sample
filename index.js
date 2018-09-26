@@ -12,8 +12,16 @@ app.use(express.urlencoded({
 }))
 
 app.get('/api/product', (req, res) => {
-	res.status(200).json({
-		products: []
+	Product.find({}, (err, products) => {
+		if(err) {
+			return res.status(500).send(`Error of request ${err}`)
+		}
+		if(!products) {
+			return res.status(404).send(`Thera are not products ${err}`)
+		}		
+		res.status(200).json({
+			products
+		})
 	})
 })
 
