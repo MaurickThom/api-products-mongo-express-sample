@@ -7,14 +7,14 @@ const UserController = require('../controllers/user')
 
 api.get('/product', ProductController.getProducts)
 api.get('/product/:productId', ProductController.getProduct)
-api.post('/product', ProductController.saveProduct)
-api.put('/product/:productId', ProductController.updateProduct)
-api.delete('/product/:productId', ProductController.deleteProduct)
+api.post('/product', isAuth, ProductController.saveProduct)
+api.put('/product/:productId', isAuth, ProductController.updateProduct)
+api.delete('/product/:productId', isAuth, ProductController.deleteProduct)
 api.post('/signup', UserController.signUp)
 api.post('/signin', UserController.signIn)
 
 api.get('/private', isAuth, (req, res) => {
-	req.status(200).send('Welcome to private page, You have access')
+	res.status(200).send('Welcome to private page, You have access')
 })
 
 module.exports = api

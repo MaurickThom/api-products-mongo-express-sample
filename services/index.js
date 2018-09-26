@@ -33,7 +33,7 @@ const decodeToken = (token) => {
 		}
 	})
 
-	return decode
+	return decoded
 }
 
 module.exports = {
