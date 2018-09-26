@@ -15,6 +15,7 @@ app.get('/api/product', (req, res) => {
 	Product.find({}, (err, products) => {
 		if(err) {
 			return res.status(500).send(`Error of request ${err}`)
+			throw err
 		}
 		if(!products) {
 			return res.status(404).send(`Thera are not products ${err}`)
@@ -30,6 +31,7 @@ app.get('/api/product/:productId', (req, res) => {
 	Product.findById(productId, (err, product) => {
 		if(err) {
 			return res.status(500).send(`Error of request ${err}`)
+			throw err
 		}
 		if(!product) {
 			return res.status(404).send(`Product not exists ${err}`)
@@ -64,8 +66,23 @@ app.put('/api/product/:productId', (req, res) => {
 
 })
 
-app.delete('/api/productId/:productId', (req, res) => {
-
+app.delete('/api/product/:productId', (req, res) => {
+	const productId = req.params.productId
+	Product.findById(productId, (err, product) => {
+		if(err) {
+			res.status(500).send(`Error deleting product, ${err}`)
+			throw err			
+		}
+		if(!product) {
+			return res.status(404).send(`Product not exists ${err}`)
+		}
+		product.remove(err => {
+			if(err) {
+				return res.status(500).send(`Error deleting product, ${err}`)
+			}
+			res.status(200).send('Product deleted')
+		})
+	})	 
 })
 
 mongoose.connect('mongodb://localhost:27017/shop', (err, res) => {
